@@ -3,7 +3,6 @@
 from . import constants as _constants
 from .client import Client, RemoteError
 from .constants import *
-from .exportfs import ExportFSConfig, ProcessTransport, exportfs_transport
 from .io import read_message, write_message
 from .messages import (
     CodecError,
@@ -45,10 +44,7 @@ from .native import NativeUnavailable, decode_dir, encode_dir, encode_message, m
 
 __all__: list[str] = list(_constants.__all__) + [
     "Client",
-    "ExportFSConfig",
-    "ProcessTransport",
     "RemoteError",
-    "exportfs_transport",
     "read_message",
     "write_message",
     "CodecError",

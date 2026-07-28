@@ -3,12 +3,10 @@
 from __future__ import annotations
 
 import getpass
-import os
 import socket
 import threading
 from collections.abc import Iterable
 from dataclasses import replace
-from os import PathLike
 from typing import BinaryIO, TypeVar, overload
 
 from .constants import IOHDRSZ, NOFID, NOTAG, OREAD, VERSION9P
@@ -96,20 +94,6 @@ class Client:
         sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         sock.connect(path)
         return cls(sock, msize=msize)
-
-    @classmethod
-    def connect_exportfs(
-        cls,
-        *,
-        drawterm: str | PathLike[str] = "drawterm",
-        root: str | PathLike[str] | None = None,
-        msize: int = 8192,
-        version: str = VERSION9P,
-    ) -> Client:
-        from .exportfs import exportfs_transport
-
-        transport = exportfs_transport(drawterm=os.fspath(drawterm), root=root)
-        return cls(transport, msize=msize, version=version)
 
     def close(self) -> None:
         should_close = False  # pragma: no mutate

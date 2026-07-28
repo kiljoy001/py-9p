@@ -20,7 +20,10 @@ fi
 
 mkdir -p "$OUT"
 CC_BIN="${CC:-gcc}"
-CFLAGS=(-DPLAN9PORT -DNOPLAN9DEFINES -I"$INC" -I"$WRAP" -O2 -fPIC -Wall -Wextra -Wno-unused-parameter "${SAN_FLAGS[@]}")
+CFLAGS=(-DPLAN9PORT -DNOPLAN9DEFINES -I"$INC" -I"$WRAP" -O2 -fPIC -Wall -Wextra -Wno-unused-parameter)
+if [ "${#SAN_FLAGS[@]}" -gt 0 ]; then
+    CFLAGS+=("${SAN_FLAGS[@]}")
+fi
 
 compile() {
     local src="$1"
@@ -41,5 +44,9 @@ if [ "${SANITIZE:-0}" = "1" ]; then
 fi
 
 echo "LD $SO_NAME"
-"$CC_BIN" -shared -fPIC "${SAN_FLAGS[@]}" -o "$HERE/$SO_NAME" "$OUT"/*.o "${LINK_EXTRA[@]}"
+LDFLAGS=(-shared -fPIC)
+if [ "${#SAN_FLAGS[@]}" -gt 0 ]; then
+    LDFLAGS+=("${SAN_FLAGS[@]}")
+fi
+"$CC_BIN" "${LDFLAGS[@]}" -o "$HERE/$SO_NAME" "$OUT"/*.o "${LINK_EXTRA[@]}"
 ls -la "$HERE/$SO_NAME"

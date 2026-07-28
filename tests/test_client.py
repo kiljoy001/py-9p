@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import socket
 import threading
+import time
 
 import pytest
 
@@ -495,6 +496,62 @@ def test_wait_for_reply_starts_idle_reader_promptly(monkeypatch):
     assert errors == []
     assert result == [expected]
     assert client._reading is False
+
+
+def test_wait_for_reply_serializes_active_reader(monkeypatch):
+    client = Client(object())  # type: ignore[arg-type]
+    client._outstanding.update({0, 1})
+    first_read_entered = threading.Event()
+    release_first_read = threading.Event()
+    call_lock = threading.Lock()
+    calls = 0
+
+    def fake_read(_transport, *, max_size):
+        nonlocal calls
+        with call_lock:
+            calls += 1
+            call = calls
+        if call == 1:
+            first_read_entered.set()
+            assert release_first_read.wait(timeout=1)
+            return Rread(data=b"zero", tag=0)
+        if call == 2:
+            return Rread(data=b"one", tag=1)
+        raise AssertionError("only one waiter may own the transport reader")
+
+    monkeypatch.setattr(client_mod, "read_message", fake_read)
+    results: list[object] = []
+    errors: list[BaseException] = []
+
+    def wait(tag: int) -> None:
+        try:
+            results.append(client._wait_for_reply(tag))
+        except (AssertionError, EOFError, OSError, ProtocolError) as exc:
+            errors.append(exc)
+
+    first = threading.Thread(target=wait, args=(0,), daemon=True)
+    second = threading.Thread(target=wait, args=(1,), daemon=True)
+    first.start()
+    assert first_read_entered.wait(timeout=1)
+    second.start()
+
+    try:
+        time.sleep(0.05)
+        with call_lock:
+            assert calls == 1
+    finally:
+        release_first_read.set()
+
+    first.join(timeout=1)
+    second.join(timeout=1)
+
+    assert not first.is_alive()
+    assert not second.is_alive()
+    assert errors == []
+    assert sorted((reply.tag, reply.data) for reply in results if isinstance(reply, Rread)) == [
+        (0, b"zero"),
+        (1, b"one"),
+    ]
 
 
 def test_helper_methods_send_exact_requests_and_expected_types(monkeypatch):

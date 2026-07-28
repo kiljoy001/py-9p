@@ -15,3 +15,4 @@ vendor/libpy9p.so
 vendor/libpy9p-asan.so
 mutants/
 .mutmut-cache/
+.manylinux-remote-dir

@@ -48,20 +48,6 @@ with Client.connect_tcp("127.0.0.1", 564) as c:
     c.clunk(fid=1)
 ```
 
-For a local exported namespace, use drawterm's `exportfs` instead of a Python
-server reimplementation:
-
-```python
-from py9p import Client, OREAD
-
-with Client.connect_exportfs(drawterm="../drawterm/drawterm", root="/tmp") as c:
-    c.negotiate()
-    c.attach(fid=0, uname="glenda")
-    c.walk(fid=0, newfid=1, path="hello.txt")
-    c.open(fid=1, mode=int(OREAD))
-    data = c.read(fid=1, count=4096)
-```
-
 You can drop down a level whenever you need exact protocol control:
 
 ```python
@@ -77,15 +63,10 @@ specific protocol tag for a low-level probe.
 ## Scope
 
 This first slice targets 9P2000 message and stat encoding/decoding plus a
-small synchronous client with multiplexed tagged RPC. Server-side work should
-reuse 9front/drawterm `exportfs`; py9p now exposes a process transport for
-drawterm's raw stdio exportfs mode.
-
-Authenticated 9front sessions are in scope, but should come from drawterm's
-existing p9any/dp9ik, factotum/secstore, TLS/SSL, and exportfs composition
-rather than a Python auth rewrite. The current Python API does not yet expose
-that authenticated session binding. 9P2000.u extensions are also not yet
-implemented.
+small synchronous client with multiplexed tagged RPC. It intentionally does
+not implement auth helpers, server dispatch, namespace/exportfs orchestration,
+or 9P2000.u extensions. Those belong in higher-level tools built on this
+protocol layer.
 
 The native library is built from the vendored plan9port converters:
 `convM2S`, `convS2M`, `convM2D`, and `convD2M`. py9p adds only a small C shim
@@ -104,4 +85,24 @@ The full local gate mirrors py-libtab's style:
 ```bash
 ./run-all-tests.sh
 ./run-all-tests.sh all
+```
+
+## Release
+
+The PyPI distribution name is `py-9p`; the import package remains `py9p`.
+
+Releases are built by `.github/workflows/publish.yml`. Configure PyPI Trusted
+Publishing with:
+
+- PyPI project: `py-9p`
+- Owner: `kiljoy001`
+- Repository: `py-9p`
+- Workflow: `publish.yml`
+- Environment: `pypi`
+
+Publishing runs only for version tags:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
 ```

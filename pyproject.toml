@@ -3,13 +3,14 @@ requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "py9p"
+name = "py-9p"
 version = "0.1.0"
 description = "Pythonic 9P2000 messages and client helpers backed by plan9port's C wire codec."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
+keywords = ["9p", "9p2000", "plan9", "filesystems"]
 dependencies = []
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -26,6 +27,11 @@ classifiers = [
 test = ["pytest>=7.0", "hypothesis>=6.0"]
 security = ["atheris>=3.0", "bandit>=1.7", "pip-audit>=2.7", "mutmut>=2.5"]
 dev = ["ruff>=0.6"]
+
+[project.urls]
+Homepage = "https://github.com/kiljoy001/py-9p"
+Repository = "https://github.com/kiljoy001/py-9p"
+Issues = "https://github.com/kiljoy001/py-9p/issues"
 
 [tool.setuptools.packages.find]
 include = ["py9p*"]

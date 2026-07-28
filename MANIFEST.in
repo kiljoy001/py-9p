@@ -1,0 +1,15 @@
+graft vendor/plan9port/include
+graft vendor/plan9port/src
+graft vendor/py9p_c
+graft tests
+graft examples
+include vendor/plan9port/LICENSE
+include vendor/build.sh
+include README.md TESTING.md CHANGELOG.md LICENSE
+
+global-exclude *.o *.a *.so *.pyc
+prune vendor/build
+prune vendor/build-asan
+prune .pytest_cache
+prune .hypothesis
+prune .ruff_cache

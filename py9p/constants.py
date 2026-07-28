@@ -1,0 +1,163 @@
+"""9P2000 constants exposed by py9p."""
+
+from __future__ import annotations
+
+from enum import IntEnum, IntFlag
+
+VERSION9P = "9P2000"
+MAXWELEM = 16
+NOTAG = 0xFFFF
+NOFID = 0xFFFFFFFF
+IOHDRSZ = 24
+
+
+class MessageType(IntEnum):
+    TVERSION = 100
+    RVERSION = 101
+    TAUTH = 102
+    RAUTH = 103
+    TATTACH = 104
+    RATTACH = 105
+    TERROR = 106
+    RERROR = 107
+    TFLUSH = 108
+    RFLUSH = 109
+    TWALK = 110
+    RWALK = 111
+    TOPEN = 112
+    ROPEN = 113
+    TCREATE = 114
+    RCREATE = 115
+    TREAD = 116
+    RREAD = 117
+    TWRITE = 118
+    RWRITE = 119
+    TCLUNK = 120
+    RCLUNK = 121
+    TREMOVE = 122
+    RREMOVE = 123
+    TSTAT = 124
+    RSTAT = 125
+    TWSTAT = 126
+    RWSTAT = 127
+
+
+TVERSION = MessageType.TVERSION
+RVERSION = MessageType.RVERSION
+TAUTH = MessageType.TAUTH
+RAUTH = MessageType.RAUTH
+TATTACH = MessageType.TATTACH
+RATTACH = MessageType.RATTACH
+TERROR = MessageType.TERROR
+RERROR = MessageType.RERROR
+TFLUSH = MessageType.TFLUSH
+RFLUSH = MessageType.RFLUSH
+TWALK = MessageType.TWALK
+RWALK = MessageType.RWALK
+TOPEN = MessageType.TOPEN
+ROPEN = MessageType.ROPEN
+TCREATE = MessageType.TCREATE
+RCREATE = MessageType.RCREATE
+TREAD = MessageType.TREAD
+RREAD = MessageType.RREAD
+TWRITE = MessageType.TWRITE
+RWRITE = MessageType.RWRITE
+TCLUNK = MessageType.TCLUNK
+RCLUNK = MessageType.RCLUNK
+TREMOVE = MessageType.TREMOVE
+RREMOVE = MessageType.RREMOVE
+TSTAT = MessageType.TSTAT
+RSTAT = MessageType.RSTAT
+TWSTAT = MessageType.TWSTAT
+RWSTAT = MessageType.RWSTAT
+
+
+class OpenMode(IntFlag):
+    OREAD = 0
+    OWRITE = 1
+    ORDWR = 2
+    OEXEC = 3
+    OTRUNC = 16
+    OCEXEC = 32
+    ORCLOSE = 64
+    ODIRECT = 128
+    ONONBLOCK = 256
+    OEXCL = 0x1000
+    OLOCK = 0x2000
+    OAPPEND = 0x4000
+
+
+OREAD = OpenMode.OREAD
+OWRITE = OpenMode.OWRITE
+ORDWR = OpenMode.ORDWR
+OEXEC = OpenMode.OEXEC
+OTRUNC = OpenMode.OTRUNC
+OCEXEC = OpenMode.OCEXEC
+ORCLOSE = OpenMode.ORCLOSE
+ODIRECT = OpenMode.ODIRECT
+ONONBLOCK = OpenMode.ONONBLOCK
+OEXCL = OpenMode.OEXCL
+OLOCK = OpenMode.OLOCK
+OAPPEND = OpenMode.OAPPEND
+
+
+class QidType(IntFlag):
+    QTDIR = 0x80
+    QTAPPEND = 0x40
+    QTEXCL = 0x20
+    QTMOUNT = 0x10
+    QTAUTH = 0x08
+    QTTMP = 0x04
+    QTSYMLINK = 0x02
+    QTFILE = 0x00
+
+
+QTDIR = QidType.QTDIR
+QTAPPEND = QidType.QTAPPEND
+QTEXCL = QidType.QTEXCL
+QTMOUNT = QidType.QTMOUNT
+QTAUTH = QidType.QTAUTH
+QTTMP = QidType.QTTMP
+QTSYMLINK = QidType.QTSYMLINK
+QTFILE = QidType.QTFILE
+
+
+class DirMode(IntFlag):
+    DMDIR = 0x80000000
+    DMAPPEND = 0x40000000
+    DMEXCL = 0x20000000
+    DMMOUNT = 0x10000000
+    DMAUTH = 0x08000000
+    DMTMP = 0x04000000
+    DMSYMLINK = 0x02000000
+    DMDEVICE = 0x00800000
+    DMNAMEDPIPE = 0x00200000
+    DMSOCKET = 0x00100000
+    DMSETUID = 0x00080000
+    DMSETGID = 0x00040000
+    DMREAD = 0x4
+    DMWRITE = 0x2
+    DMEXEC = 0x1
+
+
+DMDIR = DirMode.DMDIR
+DMAPPEND = DirMode.DMAPPEND
+DMEXCL = DirMode.DMEXCL
+DMMOUNT = DirMode.DMMOUNT
+DMAUTH = DirMode.DMAUTH
+DMTMP = DirMode.DMTMP
+DMSYMLINK = DirMode.DMSYMLINK
+DMDEVICE = DirMode.DMDEVICE
+DMNAMEDPIPE = DirMode.DMNAMEDPIPE
+DMSOCKET = DirMode.DMSOCKET
+DMSETUID = DirMode.DMSETUID
+DMSETGID = DirMode.DMSETGID
+DMREAD = DirMode.DMREAD
+DMWRITE = DirMode.DMWRITE
+DMEXEC = DirMode.DMEXEC
+
+__all__ = [
+    name
+    for name in globals()
+    if name.isupper() or name in {"MessageType", "OpenMode", "QidType", "DirMode"}
+]

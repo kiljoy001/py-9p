@@ -36,7 +36,7 @@ jobs:
       - name: Store sdist
         uses: actions/upload-artifact@v7
         with:
-          name: py-9p-sdist
+          name: python-9p-sdist
           path: dist/*.tar.gz
 
   wheels:
@@ -62,7 +62,7 @@ jobs:
       - name: Store wheels
         uses: actions/upload-artifact@v7
         with:
-          name: py-9p-wheels
+          name: python-9p-wheels
           path: wheelhouse/*.whl
 
   publish:
@@ -74,7 +74,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/py-9p
+      url: https://pypi.org/p/python-9p
     permissions:
       contents: read
       id-token: write
@@ -83,13 +83,13 @@ jobs:
       - name: Download sdist
         uses: actions/download-artifact@v8
         with:
-          name: py-9p-sdist
+          name: python-9p-sdist
           path: dist
 
       - name: Download wheels
         uses: actions/download-artifact@v8
         with:
-          name: py-9p-wheels
+          name: python-9p-wheels
           path: dist
 
       - name: Check distributions

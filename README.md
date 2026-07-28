@@ -89,12 +89,12 @@ The full local gate mirrors py-libtab's style:
 
 ## Release
 
-The PyPI distribution name is `py-9p`; the import package remains `py9p`.
+The PyPI distribution name is `python-9p`; the import package remains `py9p`.
 
 Releases are built by `.github/workflows/publish.yml`. Configure PyPI Trusted
 Publishing with:
 
-- PyPI project: `py-9p`
+- PyPI project: `python-9p`
 - Owner: `kiljoy001`
 - Repository: `py-9p`
 - Workflow: `publish.yml`

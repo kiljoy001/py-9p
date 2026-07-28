@@ -81,13 +81,13 @@ jobs:
 
     steps:
       - name: Download sdist
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: py-9p-sdist
           path: dist
 
       - name: Download wheels
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: py-9p-wheels
           path: dist

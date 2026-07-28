@@ -34,7 +34,7 @@ jobs:
           python -m build --sdist
 
       - name: Store sdist
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: py-9p-sdist
           path: dist/*.tar.gz
@@ -60,7 +60,7 @@ jobs:
           output-dir: wheelhouse
 
       - name: Store wheels
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: py-9p-wheels
           path: wheelhouse/*.whl

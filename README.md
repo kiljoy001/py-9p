@@ -87,22 +87,10 @@ The full local gate mirrors py-libtab's style:
 ./run-all-tests.sh all
 ```
 
-## Release
-
-The PyPI distribution name is `python-9p`; the import package remains `py9p`.
-
-Releases are built by `.github/workflows/publish.yml`. Configure PyPI Trusted
-Publishing with:
-
-- PyPI project: `python-9p`
-- Owner: `kiljoy001`
-- Repository: `py-9p`
-- Workflow: `publish.yml`
-- Environment: `pypi`
-
-Publishing runs only for version tags:
+## Install
 
 ```bash
-git tag v0.1.0
-git push origin v0.1.0
+python -m pip install python-9p
 ```
+
+The PyPI distribution name is `python-9p`; the import package is `py9p`.
